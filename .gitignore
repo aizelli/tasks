@@ -5,6 +5,8 @@ node_modules/
 
 # Expo
 .expo/
+.vscode/
+android/
 dist/
 web-build/
 
