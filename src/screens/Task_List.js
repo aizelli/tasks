@@ -3,9 +3,6 @@ import { StyleSheet, View, Text, ImageBackground } from "react-native"
 import moment from "moment"
 import "moment/locale/pt-br"
 
-import moment from "moment"
-import 'moment/locale/pt-br'
-
 import today_Image from "../../assets/imgs/today.jpg"
 import Task from "../components/Task"
 
@@ -27,7 +24,7 @@ export default class TaskList extends Component {
                     <Task description={"apreesntar TCC"}
                         estimate_at={new Date()}
                         done_at={null} />
-                        
+
                 </View>
             </View>
         )
@@ -62,7 +59,4 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginBottom: 30
     }
-
-
-
 })
