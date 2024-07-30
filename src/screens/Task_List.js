@@ -18,11 +18,11 @@ export default class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <Task description={"terminar TCC"}
-                        estimate_at={new Date()}
+                    <Task description={"Terminar TCC"}
+                        estimate_at={moment(new Date()).add(30, "days")}
                         done_at={new Date()} />
-                    <Task description={"apreesntar TCC"}
-                        estimate_at={new Date()}
+                    <Task description={"Apresentar TCC"}
+                        estimate_at={moment(new Date()).add(63, "days")}
                         done_at={null} />
 
                 </View>
