@@ -43,7 +43,7 @@ export default class TaskList extends Component {
                 // }
             }
         })
-        this.setState({ tasks})
+        this.setState({ tasks })
     }
 
     render() {
