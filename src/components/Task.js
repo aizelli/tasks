@@ -4,12 +4,12 @@ import moment from "moment"
 import Icon from "react-native-vector-icons/FontAwesome6"
 
 export default props => {
-    const done_or_not = props.done_at != null ? {textDecorationLine: "line-through"}: {}
-    const date = props.done_at != null ? props.done_at : props.estimate_at 
+    const done_or_not = props.done_at != null ? { textDecorationLine: "line-through" } : {}
+    const date = props.done_at != null ? props.done_at : props.estimate_at
     const formated_date = moment(date).format('ddd, D [de] MMM')
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => props.toggle_task(props.id)}>
                 <View style={styles.checkContainer}>
                     {get_Check_View(props.done_at)}
                 </View>
