@@ -2,13 +2,15 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, ImageBackground, FlatList } from "react-native"
 import moment from "moment"
 import "moment/locale/pt-br"
-
+import Icon from "react-native-vector-icons/FontAwesome6"
 import today_Image from "../../assets/imgs/today.jpg"
 import Task from "../components/Task"
 
 export default class TaskList extends Component {
 
     state = {
+        show_done_task: true,
+        visible_tasks: [],
         tasks: [
             {
                 id: Math.random(),
@@ -46,11 +48,25 @@ export default class TaskList extends Component {
         this.setState({ tasks })
     }
 
+    filter_tasks = () => {
+        let visible_tasks = null
+        if(this.state.show_done_task){
+            visible_tasks = [...this.state.tasks]
+        }else{
+            const pending = task => task.done_at === null
+            visible_tasks = this.state.tasks.filter(pending)
+        }
+        this.setState({visible_tasks})
+    }
+
     render() {
         const today = moment().locale('pt-br').format('ddd, D [de] MMM')
         return (
             <View style={styles.container}>
                 <ImageBackground source={today_Image} style={styles.background}>
+                    <View style={styles.iconBar}>
+                        <Icon name="eye" size={20} color="#FFF"></Icon>
+                    </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Hoje</Text>
                         <Text style={styles.subTitle}>{today}</Text>
@@ -102,5 +118,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 20,
         marginBottom: 30
+    },
+    iconBar:{
+        flexDirection: 'row',
+        marginHorizontal: 20,
+        marginTop: 50,
+        justifyContent: 'flex-end'
     }
 })
