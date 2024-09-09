@@ -15,7 +15,7 @@ export default class AddTask extends Component {
         return (
             <Modal
                 transparent={true}
-                visible={true}
+                visible={this.props.visivel}
                 onRequestClose={this.props.cancelar}
                 animationType='slide'>
                 <TouchableWithoutFeedback onPress={this.props.cancelar}>

@@ -67,12 +67,8 @@ export default class Task_List extends Component {
         this.setState({ tarefas }, this.filtro_tarefas)
     }
 
-    fechar_tela = ()=>{
-        this.setState({mostrar_tela_cadastro: false})
-    }
-
-    abre_tela = ()=>{
-        this.setState({mostrar_tela_cadastro: true})
+    alternar_tela = ()=>{
+        this.setState({mostrar_tela_cadastro: !this.state.mostrar_tela_cadastro})
     }
 
     render() {
@@ -81,7 +77,7 @@ export default class Task_List extends Component {
             <View style={styles.principal}>
                 <AddTask
                     visivel={this.state.mostrar_tela_cadastro}
-                    cancelar={this.fechar_tela} 
+                    cancelar={this.alternar_tela} 
                     />
                 <ImageBackground source={hoje_imagem} style={styles.fundo}>
                     <View style={styles.barra_icone}>
@@ -101,7 +97,7 @@ export default class Task_List extends Component {
                 </View>
                 <TouchableOpacity
                     style={styles.botao_add}
-                    onPress={this.abre_tela}
+                    onPress={this.alternar_tela}
                     >
                     <Icon name='plus' size={20} color="#FFF" />
                 </TouchableOpacity>
