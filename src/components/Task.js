@@ -4,8 +4,6 @@ import Icon from "react-native-vector-icons/FontAwesome6"
 import moment from "moment"
 import "moment/locale/pt-br"
 
-import common_Styles from "../styles/common_Styles"
-
 export default props => {
 
     const concluido_ou_nao = props.data_conclusao != null ? { textDecorationLine: "line-through" } : {}
@@ -75,11 +73,11 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     desc: {
-        color: common_Styles.colors.main,
+        color: '#333',
         fontSize: 20
     },
     data: {
-        color: common_Styles.colors.sub,
+        color: '#555',
     }
 
 })

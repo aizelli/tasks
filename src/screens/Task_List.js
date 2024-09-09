@@ -1,19 +1,20 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, ImageBackground, FlatList, TouchableOpacity, Platform } from "react-native"
+import { StyleSheet, View, Text, ImageBackground, FlatList, TouchableOpacity } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome6"
 
 import moment from "moment"
 
 import hoje_imagem from "../../assets/imgs/today.jpg"
-import common_Styles from "../styles/common_Styles"
 import Task from "../components/Task"
+import AddTask from "./AddTask"
 
 import "moment/locale/pt-br"
 
 export default class Task_List extends Component {
 
     state = {
-        mostra_tarefas_concluidas: true,
+        mostrar_tarefas_concluidas: true,
+        mostrar_tela_cadastro: false,
         tarefas_visiveis: [],
         tarefas: [{
             id: Math.random(),
@@ -40,19 +41,19 @@ export default class Task_List extends Component {
     }
 
     alternar_filtro = () => {
-        this.setState({ mostra_tarefas_concluidas: !this.state.mostra_tarefas_concluidas }, this.filtro_tarefas)
+        this.setState({ mostrar_tarefas_concluidas: !this.state.mostrar_tarefas_concluidas }, this.filtro_tarefas)
     }
 
     filtro_tarefas = () => {
         let tarefas_visiveis = null
-        if(this.state.mostra_tarefas_concluidas){
+        if (this.state.mostrar_tarefas_concluidas) {
             tarefas_visiveis = [...this.state.tarefas]
-        }else{
+        } else {
             const pendente = tarefa => tarefa.data_conclusao === null
             tarefas_visiveis = this.state.tarefas.filter(pendente)
         }
 
-        this.setState({tarefas_visiveis})
+        this.setState({ tarefas_visiveis })
     }
 
     alternar_tarefa = task_id => {
@@ -66,14 +67,26 @@ export default class Task_List extends Component {
         this.setState({ tarefas }, this.filtro_tarefas)
     }
 
+    fechar_tela = ()=>{
+        this.setState({mostrar_tela_cadastro: false})
+    }
+
+    abre_tela = ()=>{
+        this.setState({mostrar_tela_cadastro: true})
+    }
+
     render() {
         const data_hoje = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
             <View style={styles.principal}>
+                <AddTask
+                    visivel={this.state.mostrar_tela_cadastro}
+                    cancelar={this.fechar_tela} 
+                    />
                 <ImageBackground source={hoje_imagem} style={styles.fundo}>
                     <View style={styles.barra_icone}>
                         <TouchableOpacity onPress={this.alternar_filtro}>
-                            <Icon name={this.state.mostra_tarefas_concluidas ? 'eye' : 'eye-slash'} size={20} color="#FFF"></Icon>
+                            <Icon name={this.state.mostrar_tarefas_concluidas ? 'eye' : 'eye-slash'} size={20} color="#FFF"></Icon>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.barra_titulo}>
@@ -85,25 +98,13 @@ export default class Task_List extends Component {
                     <FlatList data={this.state.tarefas_visiveis}
                         keyExtractor={item => `${item.id}`}
                         renderItem={({ item }) => <Task{...item} alternar_tarefa={this.alternar_tarefa} />} />
-                    {/* <Task descricao={"Comprar jogo GTA 6"} data_estimada={new Date()} data_conclusao={new Date()} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} />
-                    <Task descricao={"Jogar GTA 6"} data_estimada={new Date()} data_conclusao={null} /> */}
                 </View>
+                <TouchableOpacity
+                    style={styles.botao_add}
+                    onPress={this.abre_tela}
+                    >
+                    <Icon name='plus' size={20} color="#FFF" />
+                </TouchableOpacity>
             </View>
         )
     }
@@ -124,13 +125,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     titulo: {
-        color: common_Styles.colors.secondary,
+        color: '#FFF',
         fontSize: 50,
         marginLeft: 20,
         marginBottom: 20
     },
     subtitulo: {
-        color: common_Styles.colors.secondary,
+        color: '#FFF',
         fontSize: 20,
         marginLeft: 20,
         marginBottom: 30
@@ -141,5 +142,16 @@ const styles = StyleSheet.create({
         marginTop: 50,
         justifyContent: 'flex-end'
     },
+    botao_add: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#B13B44',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 
 })
