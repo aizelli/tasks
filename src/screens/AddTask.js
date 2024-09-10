@@ -1,6 +1,5 @@
 import React, { Component } from "react"
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { Modal } from "react-native-web"
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Modal } from "react-native"
 
 const initialSate = {desc: ''}
 
@@ -61,8 +60,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     input:{
-        width: '90%',
-        height: 40,
         margin: 15,
         backgroundColor: '#FFF',
         borderWidth: 1,
