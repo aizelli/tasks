@@ -1,65 +1,71 @@
 import React from "react"
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native"
-import moment from "moment"
 import Icon from "react-native-vector-icons/FontAwesome6"
+import moment from "moment"
+import "moment/locale/pt-br"
+
+import common_Styles from "../styles/common_Styles"
 
 export default props => {
-    const done_or_not = props.done_at != null ? { textDecorationLine: "line-through" } : {}
-    const date = props.done_at != null ? props.done_at : props.estimate_at
-    const formated_date = moment(date).format('ddd, D [de] MMM')
+
+    const concluido_ou_nao = props.data_conclusao != null ? { textDecorationLine: "line-through" } : {}
+
+    const data = props.data_conclusao ? props.data_conclusao : props.data_estimada
+    const data_formatada = moment(data).locale('pt-br').format('ddd, D [de] MMM')
+
     return (
-        <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={() => props.toggle_task(props.id)}>
-                <View style={styles.checkContainer}>
-                    {get_Check_View(props.done_at)}
+        <View style={styles.principal}>
+            <TouchableWithoutFeedback
+            onPress={() => props.alternar_tarefa(props.id) }>
+                <View style={styles.check_principal}>
+                    {get_visualizar_check(props.data_conclusao)}
                 </View>
             </TouchableWithoutFeedback>
             <View>
-                <Text style={[styles.desc, done_or_not]}>{props.description}</Text>
-                <Text style={styles.date}>{formated_date}</Text>
+                <Text style={[styles.desc, concluido_ou_nao]}>{props.decricao}</Text>
+                <Text style={styles.data}>{data_formatada}</Text>
             </View>
         </View>
     )
 }
 
-function get_Check_View(done_at) {
-    if (done_at != null) {
+function get_visualizar_check(data_conclusao) {
+    if (data_conclusao != null) {
         return (
-            <View style={styles.done}>
+            <View style={styles.concluido}>
                 <Icon name="check" size={20} color="#FFF"></Icon>
             </View>
         )
     } else {
         return (
-            <View style={styles.pending}>
+            <View style={styles.pendente}>
+
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    principal: {
         flexDirection: "row",
-        borderColor: '#AAA',
+        borderColor: "#AAA",
         borderBottomWidth: 1,
-        alignItems: 'center',
+        alignItems: "center",
         paddingVertical: 10
     },
-    desc: {
-        fontFamily: "Arial",
-        fontSize: 20,
-        color: "#333333"
-    },
-    date: {
-        fontFamily: "Arial",
-        color: "#555555"
-    },
-    checkContainer: {
+    check_principal: {
         width: "20%",
         alignItems: "center",
         justifyContent: "center"
     },
-    done: {
+    pendente: {
+        height: 25,
+        width: 25,
+        borderRadius: 13,
+        borderWidth: 1,
+        borderColor: "#555"
+    },
+    concluido: {
         height: 25,
         width: 25,
         borderRadius: 13,
@@ -68,11 +74,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    pending: {
-        height: 25,
-        width: 25,
-        borderRadius: 13,
-        borderWidth: 1,
-        borderColor: "#555555"
+    desc: {
+        color: common_Styles.colors.main,
+        fontSize: 20
+    },
+    data: {
+        color: common_Styles.colors.sub,
     }
+
 })
