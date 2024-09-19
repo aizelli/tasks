@@ -22,7 +22,7 @@ export default props => {
                 </View>
             </TouchableWithoutFeedback>
             <View>
-                <Text style={[styles.desc, concluido_ou_nao]}>{props.decricao}</Text>
+                <Text style={[styles.desc, concluido_ou_nao]}>{props.descricao}</Text>
                 <Text style={styles.data}>{data_formatada}</Text>
             </View>
         </View>
