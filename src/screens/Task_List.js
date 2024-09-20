@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, ImageBackground, FlatList, TouchableOpacity } from "react-native"
+import { StyleSheet, View, Text, ImageBackground, FlatList, TouchableOpacity, Alert } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome6"
 
 import moment from "moment"
@@ -71,13 +71,31 @@ export default class Task_List extends Component {
         this.setState({mostrar_tela_cadastro: !this.state.mostrar_tela_cadastro})
     }
 
+    adicionar_tarefa = nova_tarefa =>{
+        if(!nova_tarefa.desc || !nova_tarefa.desc.trim()){
+            Alert.alert('Dados inválidos', 'Preencha a descrição')
+            return
+        }
+
+        const tarefas = [...this.state.tarefas]
+        tarefas.push({
+            id: Math.random(),
+            descricao: nova_tarefa.desc,
+            data_estimada: nova_tarefa.data,
+            data_conclusao: null
+        })
+
+        this.setState({tarefas, mostrar_tela_cadastro: false}, this.filtro_tarefas)
+    }
+
     render() {
         const data_hoje = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
             <View style={styles.principal}>
                 <AddTask
                     visivel={this.state.mostrar_tela_cadastro}
-                    cancelar={this.alternar_tela} 
+                    cancelar={this.alternar_tela}
+                    salvar = {this.adicionar_tarefa}
                     />
                 <ImageBackground source={hoje_imagem} style={styles.fundo}>
                     <View style={styles.barra_icone}>
