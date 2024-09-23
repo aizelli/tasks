@@ -6,10 +6,33 @@ import {
     StyleSheet,
     TouchableWithoutFeedback,
     TouchableOpacity,
-    Modal
+    Modal,
+    Alert
 } from "react-native";
+import { Icon } from "react-native-vector-icons/FontAwesome6";
+import moment from "moment";
+import DateTimePicker from '@react-native-community/datetimepicker'
 
-const estado_inicial = { desc: '' }
+const estado_inicial = {
+    desc: '',
+    data: new Date(),
+    mostrar_calendario: false
+}
+
+abrir_calendario = () => {
+    this.setState({mostrar_calendario: true})
+}
+
+salvar_tarefa = () =>{
+    const nova_tarefa = {
+        desc: this.state.desc,
+        data: this.state.data
+    }
+    if(this.props.salvar){
+        this.props.salvar(nova_tarefa)
+        this.setState({...estado_inicial})
+    }
+}
 
 export default class AddTask extends Component {
 
@@ -18,10 +41,11 @@ export default class AddTask extends Component {
     }
 
     render() {
+        const data_formatada = moment(this.state.data).format('ddd, D [de] MMMM')
         return (
             <Modal
                 transparent={true}
-                visible={true}
+                visible={this.props.visivel}
                 onRequestClose={this.props.cancelar}
                 animationType="slide">
                 <TouchableWithoutFeedback onPress={this.props.cancelar}>
@@ -32,11 +56,13 @@ export default class AddTask extends Component {
                     <TextInput
                         style={styles.input}
                         placeholder="Descrição da tarefa"
-                        onChange={desc => this.setState({desc})}
+                        onChangeText={desc => this.setState({ desc })}
                         value={this.state.desc}
                     />
                     <View style={styles.botoes}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={this.props.cancelar}
+                        >
                             <Text style={styles.botao}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -69,7 +95,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     input: {
-        height: 40,
+        width: '85%',
         margin: 15,
         backgroundColor: '#FFF',
         borderWidth: 1,
@@ -84,5 +110,15 @@ const styles = StyleSheet.create({
         margin: 20,
         marginRight: 30,
         color: '#B13B44'
+    },
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 15,
+        paddingVertical: 10
+    },
+    data: {
+        margin: 10,
+        color: '#333'
     }
 })
