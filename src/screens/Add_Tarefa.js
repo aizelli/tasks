@@ -8,9 +8,14 @@ import {
     TouchableWithoutFeedback,
     Modal
 } from "react-native"
+import Icon from "react-native-vector-icons/FontAwesome6";
+import moment from "moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 
 export default class Add_Tarefa extends Component {
     render() {
+        const data_formatada = moment(new Date()).format('ddd, D [de] MMMM [de] YYYY')
         return (
             <Modal
                 transparent={true}
@@ -22,15 +27,23 @@ export default class Add_Tarefa extends Component {
                 </TouchableWithoutFeedback>
                 <View style={styles.principal}>
                     <Text style={styles.cabecalho}>Nova Tarefa</Text>
-                    <TextInput
-                        placeholder="Descrição da tarefa"
-                    />
-                    <View>
+                    <View style={styles.container}>
+                        <Icon name="clipboard-check" size={25}></Icon>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Descrição da tarefa"
+                        />
+                    </View>
+                    <TouchableOpacity style={styles.container}>
+                        <Icon name="calendar" size={25}></Icon>
+                        <Text style={styles.data}>{data_formatada}</Text>
+                    </TouchableOpacity>
+                    <View style={styles.botoes}>
                         <TouchableOpacity>
-                            <Text>Cancelar</Text>
+                            <Text style={styles.botao}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text>Salvar</Text>
+                            <Text style={styles.botao}>Salvar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -52,11 +65,36 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF'
     },
-    cabecalho:{
+    cabecalho: {
         backgroundColor: "#B13B44",
         color: '#FFF',
         textAlign: 'center',
         padding: 20,
         fontSize: 25
+    },
+    input:{
+        width: '85%',
+        margin:15,
+        borderWidth: 1,
+        borderColor: '#E3E3E3',
+        borderRadius: 6
+    },
+    botoes:{
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    },
+    botao:{
+        margin: 20,
+        marginRight: 30,
+        color: '#B13B44'
+    },
+    container:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 15,
+        paddingVertical: 10
+    },
+    data:{
+        margin: 10,
     }
 })
