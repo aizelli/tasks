@@ -18,19 +18,19 @@ export default class Task_List extends Component {
         tarefas_visiveis: [],
         tarefas: [{
             id: Math.random(),
-            descricao: "Comprar jogo GTA 6",
+            descricao: "Tarefa 1",
             data_estimada: new Date(),
             data_conclusao: new Date()
         },
         {
             id: Math.random(),
-            descricao: "Jogar GTA 6",
+            descricao: "Tarefa 2",
             data_estimada: moment(new Date()).add(5, "days"),
             data_conclusao: null
         },
         {
             id: Math.random(),
-            descricao: "Levar o carro no mêcanico",
+            descricao: "Tarefa 3",
             data_estimada: moment(new Date()).add(10, "days"),
             data_conclusao: null
         }]
