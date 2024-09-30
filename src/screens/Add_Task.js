@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)'
     },
     principal: {
-        flex: 1,
         backgroundColor: '#FFF'
     },
     cabecalho: {
